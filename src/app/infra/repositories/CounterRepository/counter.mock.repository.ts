@@ -23,11 +23,11 @@ export class MockCounterRepository extends CounterRepository {
      * {@inheritdoc}
      */
     async fetchCounterList(): PromiseResult<Counter[], Error> {
-        // return new Success([
-        //     { title: 'test1', count: new Count(0) }, { title: 'test2', count: new Count(1) }, { title: 'test3', count: new Count(2) }
-        // ]);
+        return new Success([
+            { title: 'test1', count: new Count(0) }, { title: 'test2', count: new Count(1) }, { title: 'test3', count: new Count(2) }
+        ]);
 
-        return new Failure(new Error('エラーです。'));
+        // return new Failure(new Error('エラーです。'));
 
     }
 
