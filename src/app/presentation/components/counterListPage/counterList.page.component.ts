@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AlertController } from '@ionic/angular';
 import { Count } from 'src/app/domain/models/resources/count.model';
 import { Counter } from 'src/app/domain/models/resources/counter.model';
 import { Result } from 'src/app/domain/models/result/result.type';
@@ -21,7 +22,7 @@ export class CounterListPageComponent implements OnInit {
    * コンストラクタ
    * @param counterService 
    */
-  constructor(private counterService: CounterService) { }
+  constructor(private alertController: AlertController, private counterService: CounterService) { }
 
   /**
    * コンポーネント生成時
@@ -42,14 +43,29 @@ export class CounterListPageComponent implements OnInit {
     // trueの場合、異常系のためエラーハンドリング
     // falseの場合、正常系の処理を行う
     if (fetchCounterListResult.isFailure()) {
+      // エラーをコンソール出力し、ダイアログの表示
       console.error(fetchCounterListResult.error.stack);
+      this.displayErrorAlert(fetchCounterListResult.error.message);
 
     } else {
       // カウンター一覧を返す
       return fetchCounterListResult.value;
     }
+  }
 
+  /**
+   * エラーダイアログの表示
+   * @param errorMessage エラーメッセージ
+   */
+  private async displayErrorAlert(errorMessage: string) {
 
+    const alert = await this.alertController.create({
+      header: 'エラー',
+      message: `${errorMessage}`,
+      buttons: ['OK'],
+    });
+
+    await alert.present();
   }
 
 }
