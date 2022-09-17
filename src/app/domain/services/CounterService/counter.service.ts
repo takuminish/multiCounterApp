@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Counter } from '../../models/resources/counter.model';
+import { PromiseResult } from '../../models/result/result.type';
 import { CounterRepository } from '../../repositories/CounterRepository/counter.repository';
 
 /**
@@ -19,7 +20,7 @@ export class CounterService {
   /**
    * カウンター一覧を取得する
    */
-  async fetchCounterList(): Promise<Counter[]> {
+  async fetchCounterList(): PromiseResult<Counter[], Error> {
     return this.counterRepository.fetchCounterList();
 
   }

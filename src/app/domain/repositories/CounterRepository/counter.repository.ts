@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Counter } from '../../models/resources/counter.model';
+import { PromiseResult } from '../../models/result/result.type';
 
 /**
  * カウンターに関わる外部とのやりとりを行うクラス
@@ -22,6 +23,6 @@ export abstract class CounterRepository {
      * @returns カウンター一覧
      * 
      */
-    abstract fetchCounterList(): Promise<Counter[]>
+    abstract fetchCounterList(): PromiseResult<Counter[], Error>
 
 }

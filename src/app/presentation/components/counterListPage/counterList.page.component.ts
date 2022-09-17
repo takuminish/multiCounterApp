@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Count } from 'src/app/domain/models/resources/count.model';
 import { Counter } from 'src/app/domain/models/resources/counter.model';
+import { Result } from 'src/app/domain/models/result/result.type';
 import { CounterService } from 'src/app/domain/services/CounterService/counter.service';
 
 /**
@@ -36,7 +37,19 @@ export class CounterListPageComponent implements OnInit {
    * @returns カウンター一覧
    */
   async fetchCounterList(): Promise<Counter[]> {
-    return this.counterService.fetchCounterList();
+    const fetchCounterListResult: Result<Counter[], Error> = await this.counterService.fetchCounterList();
+
+    // trueの場合、異常系のためエラーハンドリング
+    // falseの場合、正常系の処理を行う
+    if (fetchCounterListResult.isFailure()) {
+      console.error(fetchCounterListResult.error.stack);
+
+    } else {
+      // カウンター一覧を返す
+      return fetchCounterListResult.value;
+    }
+
+
   }
 
 }
