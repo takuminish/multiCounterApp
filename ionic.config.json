@@ -1,0 +1,7 @@
+{
+  "name": "multiCounterApp",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
