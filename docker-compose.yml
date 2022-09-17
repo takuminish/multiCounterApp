@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  application:
+    build:
+      context: .
+    ports: 
+      - 8100:8100
+    volumes: 
+      - './:/app'
+      - node_modules_volume:/app/node_modules
+    tty: true
+volumes:
+  node_modules_volume:
