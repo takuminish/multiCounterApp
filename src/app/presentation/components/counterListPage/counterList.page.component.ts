@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Count } from 'src/app/domain/models/resources/count.model';
+import { Counter } from 'src/app/domain/models/resources/counter.model';
+import { CounterService } from 'src/app/domain/services/CounterService/counter.service';
 
+/**
+ * カウンター一覧表示画面
+ */
 @Component({
   selector: 'app-counterListPage',
   templateUrl: './counterList.page.component.html',
@@ -8,15 +13,30 @@ import { Count } from 'src/app/domain/models/resources/count.model';
 })
 export class CounterListPageComponent implements OnInit {
 
-  public counterList: { title: string, count: Count }[]
-    = [
-      { title: 'test1', count: new Count(0) }, { title: 'test2', count: new Count(1) }, { title: 'test3', count: new Count(2) }
-    ];
+  /** カウンター一覧 */
+  public counterList: Counter[] = [];
 
-  constructor() { }
+  /**
+   * コンストラクタ
+   * @param counterService 
+   */
+  constructor(private counterService: CounterService) { }
 
-  ngOnInit() {
+  /**
+   * コンポーネント生成時
+   * カウンター一覧を取得する
+   */
+  async ngOnInit() {
+    this.counterList = await this.fetchCounterList();
 
+  }
+
+  /**
+   * カウンター一覧を取得する
+   * @returns カウンター一覧
+   */
+  async fetchCounterList(): Promise<Counter[]> {
+    return this.counterService.fetchCounterList();
   }
 
 }
