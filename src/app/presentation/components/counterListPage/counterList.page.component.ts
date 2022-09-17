@@ -34,10 +34,12 @@ export class CounterListPageComponent implements OnInit {
 
   /**
    * カウンター追加用FABボタン押下時
-   * カウンターを1つ追加する
+   * カウンターを1つ追加し、最新データを取得する
    */
   async onClickAddCounterFabButton() {
+    this.addCounter('test');
 
+    this.counterList = await this.fetchCounterList();
   }
 
 

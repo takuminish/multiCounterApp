@@ -3,6 +3,7 @@ import { Count } from 'src/app/domain/models/resources/count.model';
 import { Counter } from 'src/app/domain/models/resources/counter.model';
 import { Failure, PromiseResult, Success } from 'src/app/domain/models/result/result.type';
 import { CounterRepository } from 'src/app/domain/repositories/CounterRepository/counter.repository';
+import { mockCounterList } from 'src/assets/mock/counter.mock';
 
 /**
  * カウンターに関わる外部とのやりとりを行うクラス(モック)
@@ -11,6 +12,8 @@ import { CounterRepository } from 'src/app/domain/repositories/CounterRepository
     providedIn: 'root'
 })
 export class MockCounterRepository extends CounterRepository {
+
+    private mockCounterList = mockCounterList;
 
     /**
      * コンストラクタ
@@ -23,9 +26,7 @@ export class MockCounterRepository extends CounterRepository {
      * {@inheritdoc}
      */
     async fetchCounterList(): PromiseResult<Counter[], Error> {
-        return new Success([
-            { title: 'test1', count: new Count(0) }, { title: 'test2', count: new Count(1) }, { title: 'test3', count: new Count(2) }
-        ]);
+        return new Success(this.mockCounterList);
 
         // return new Failure(new Error('エラーです。'));
     }
@@ -35,7 +36,9 @@ export class MockCounterRepository extends CounterRepository {
      * {@inheritdoc}
      */
     async addCounter(counter: Counter): PromiseResult<boolean, Error> {
-        return new Failure(new Error('登録エラー'));
+        this.mockCounterList = [...this.mockCounterList, counter];
+        return new Success(true);
+        // return new Failure(new Error('登録エラー'));
     }
 
 }
