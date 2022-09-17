@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Counter } from '../../models/resources/counter.model';
+import { CounterId } from '../../models/resources/counterId.model';
 import { PromiseResult } from '../../models/result/result.type';
 
 /**
@@ -33,5 +34,14 @@ export abstract class CounterRepository {
      * @param counter カウンター情報 
      */
     abstract addCounter(counter: Counter): PromiseResult<boolean, Error>
+
+    /**
+     * <pre>
+     * 引数のidに合致するカウンターを削除する。
+     * true: 登録成功
+     * </pre>
+     * @param counter カウンター情報 
+     */
+    abstract deleteCounterById(id: CounterId): PromiseResult<boolean, Error>
 
 }

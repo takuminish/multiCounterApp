@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Counter } from '../../models/resources/counter.model';
+import { CounterId } from '../../models/resources/counterId.model';
 import { PromiseResult } from '../../models/result/result.type';
 import { CounterRepository } from '../../repositories/CounterRepository/counter.repository';
 
@@ -25,8 +26,21 @@ export class CounterService {
 
   }
 
+  /**
+   * カウンターを追加する
+   * @param counter 
+   * @returns 
+   */
   async addCounter(counter: Counter): PromiseResult<Boolean, Error> {
     return this.counterRepository.addCounter(counter);
+  }
 
+  /**
+ * idに合致するカウンターを削除する
+ * @param id 
+ * @returns 
+ */
+  async deleteCounterById(id: CounterId): PromiseResult<Boolean, Error> {
+    return this.counterRepository.deleteCounterById(id);
   }
 }

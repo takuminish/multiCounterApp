@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { AlertController } from '@ionic/angular';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { AlertController, IonModal } from '@ionic/angular';
 import { Count } from 'src/app/domain/models/resources/count.model';
 import { Counter } from 'src/app/domain/models/resources/counter.model';
+import { CounterId } from 'src/app/domain/models/resources/counterId.model';
 import { Result } from 'src/app/domain/models/result/result.type';
 import { CounterService } from 'src/app/domain/services/CounterService/counter.service';
 
@@ -15,8 +16,14 @@ import { CounterService } from 'src/app/domain/services/CounterService/counter.s
 })
 export class CounterListPageComponent implements OnInit {
 
+  /** 削除モーダル */
+  @ViewChild(IonModal) deleteModal: IonModal;
+
   /** カウンター一覧 */
   public counterList: Counter[] = [];
+
+  /** true: 削除モーダル表示, false: 削除モーダル非表示 */
+  public isDeleteModalOpen: boolean = false;
 
   /**
    * コンストラクタ
@@ -40,6 +47,32 @@ export class CounterListPageComponent implements OnInit {
     this.addCounter('test');
 
     this.counterList = await this.fetchCounterList();
+  }
+
+  /**
+   * カウンター削除ボタン押下時
+   * カウンター削除モーダルを開く
+   */
+  onClickDeleteCounterFabButton() {
+    this.isDeleteModalOpen = true;
+  }
+
+  /**
+   * モーダル内のカウンター削除ボタン押下時
+   * idに合致するカウンターを削除する
+   */
+  async onClickDeleteConterButton(id: CounterId) {
+    this.deleteCounterById(id);
+
+    this.counterList = await this.fetchCounterList();
+  }
+
+  /**
+   * 削除モダールを閉じる
+   */
+  CanceldeleteModal() {
+    this.deleteModal.dismiss(null, 'cancel');
+    this.isDeleteModalOpen = false;
   }
 
 
@@ -74,6 +107,7 @@ export class CounterListPageComponent implements OnInit {
 
     // 登録するカウンター情報
     const counter: Counter = {
+      id: new CounterId(this.counterList.length + 1),
       title: title,
       count: new Count(0)
     }
@@ -89,6 +123,27 @@ export class CounterListPageComponent implements OnInit {
     } else {
       // 成功時は必ずtrue
       return addCounterResult.value;
+    }
+  }
+
+  /**
+ * カウンターを1つ削除する
+ * @param title カウンター名
+ * @returns true 処理成功
+ */
+  async deleteCounterById(id: CounterId): Promise<Boolean> {
+
+    const deleteCounterResult: Result<Boolean, Error> = await this.counterService.deleteCounterById(id);
+
+    // trueの場合、異常系のためエラーハンドリング
+    // falseの場合、正常系の処理を行う
+    if (deleteCounterResult.isFailure()) {
+      // エラーをコンソール出力し、ダイアログの表示
+      console.error(deleteCounterResult.error.stack);
+      this.displayErrorAlert(deleteCounterResult.error.message);
+    } else {
+      // 成功時は必ずtrue
+      return deleteCounterResult.value;
     }
   }
 
