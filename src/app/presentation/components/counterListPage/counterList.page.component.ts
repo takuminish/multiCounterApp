@@ -30,8 +30,17 @@ export class CounterListPageComponent implements OnInit {
    */
   async ngOnInit() {
     this.counterList = await this.fetchCounterList();
+  }
+
+  /**
+   * カウンター追加用FABボタン押下時
+   * カウンターを1つ追加する
+   */
+  async onClickAddCounterFabButton() {
 
   }
+
+
 
   /**
    * カウンター一覧を取得する
@@ -52,6 +61,36 @@ export class CounterListPageComponent implements OnInit {
       return fetchCounterListResult.value;
     }
   }
+
+  /**
+   * カウンターを1つ追加する
+   * カウントの初期値は0
+   * @param title カウンター名
+   * @returns true 処理成功
+   */
+  async addCounter(title: string): Promise<Boolean> {
+
+    // 登録するカウンター情報
+    const counter: Counter = {
+      title: title,
+      count: new Count(0)
+    }
+
+    const addCounterResult: Result<Boolean, Error> = await this.counterService.addCounter(counter);
+
+    // trueの場合、異常系のためエラーハンドリング
+    // falseの場合、正常系の処理を行う
+    if (addCounterResult.isFailure()) {
+      // エラーをコンソール出力し、ダイアログの表示
+      console.error(addCounterResult.error.stack);
+      this.displayErrorAlert(addCounterResult.error.message);
+    } else {
+      // 成功時は必ずtrue
+      return addCounterResult.value;
+    }
+  }
+
+
 
   /**
    * エラーダイアログの表示

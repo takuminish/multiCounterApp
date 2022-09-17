@@ -24,4 +24,9 @@ export class CounterService {
     return this.counterRepository.fetchCounterList();
 
   }
+
+  async addCounter(counter: Counter): PromiseResult<Boolean, Error> {
+    return this.counterRepository.addCounter(counter);
+
+  }
 }

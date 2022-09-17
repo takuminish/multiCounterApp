@@ -25,4 +25,13 @@ export abstract class CounterRepository {
      */
     abstract fetchCounterList(): PromiseResult<Counter[], Error>
 
+    /**
+     * <pre>
+     * 引数の情報でカウンターを1つ登録する。
+     * true: 登録成功
+     * </pre>
+     * @param counter カウンター情報 
+     */
+    abstract addCounter(counter: Counter): PromiseResult<boolean, Error>
+
 }

@@ -28,7 +28,14 @@ export class MockCounterRepository extends CounterRepository {
         ]);
 
         // return new Failure(new Error('エラーです。'));
+    }
 
+    /**
+     * 
+     * {@inheritdoc}
+     */
+    async addCounter(counter: Counter): PromiseResult<boolean, Error> {
+        return new Failure(new Error('登録エラー'));
     }
 
 }
