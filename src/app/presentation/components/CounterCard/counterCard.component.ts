@@ -12,11 +12,13 @@ export class CounterCardComponent implements OnInit {
   @Input() title: string = '';
 
   /** カウンター */
-  @Input() counter: Count = new Count(0);
+  @Input() count: Count = new Count(0);
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
+
   }
 
 }

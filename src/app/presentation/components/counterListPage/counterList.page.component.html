@@ -2,9 +2,11 @@
 
   <ion-grid>
     <ion-row>
+      <ng-container *ngFor="let counter of counterList">
       <ion-col size-xs="12" size-md="6" size-lg="4">
-       <app-CounterCard></app-CounterCard>
+       <app-CounterCard [title]="counter.title" [count]="counter.count"></app-CounterCard>
       </ion-col>
+      </ng-container>
     </ion-row>
   </ion-grid>
 

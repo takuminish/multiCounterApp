@@ -1,3 +1,5 @@
+import { IllegalArgumentError } from "src/app/error/IllegalArgumentError.error";
+
 /**
  * <pre>
  * カウント
@@ -16,6 +18,9 @@ export class Count {
      * @throws countが負数の場合
      */
     constructor(count: number) {
-
+        if (count < 0) {
+            throw new IllegalArgumentError<number>('カウントに負数は格納できません。', count);
+        }
+        this.count = count;
     }
 }
