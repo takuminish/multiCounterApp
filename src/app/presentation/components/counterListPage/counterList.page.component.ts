@@ -58,24 +58,45 @@ export class CounterListPageComponent implements OnInit {
   }
 
   /**
-   * モーダル内のカウンター削除ボタン押下時
-   * idに合致するカウンターを削除する
+   * 削除モーダルを閉じる
    */
-  async onClickDeleteConterButton(id: CounterId) {
-    this.deleteCounterById(id);
-
-    this.counterList = await this.fetchCounterList();
-  }
-
-  /**
-   * 削除モダールを閉じる
-   */
-  CanceldeleteModal() {
-    this.deleteModal.dismiss(null, 'cancel');
+  canceldeleteModal() {
     this.isDeleteModalOpen = false;
   }
 
+  /**
+   * 引数で受け取ったカウンターIDのカウンターを削除する
+   */
+  async deleteCounter(deleteTargetCounterIdList: CounterId[]) {
+    let promiseList = [];
 
+    // Promise.allにより、すべての削除処理終了後に最新データを取得するようにしている
+    deleteTargetCounterIdList.forEach(async id => {
+      promiseList = [...promiseList, this.deleteCounterById(id)];
+    });
+
+    try {
+      await Promise.all(promiseList);
+
+      const alert = await this.alertController.create({
+        header: '成功',
+        message: `選択したカウンターの削除に成功しました。`,
+        buttons: ['OK'],
+      });
+
+      await alert.present();
+    } catch (e) {
+      const alert = await this.alertController.create({
+        header: '削除失敗',
+        message: `選択したカウンターの一部の削除に失敗しました。`,
+        buttons: ['OK'],
+      });
+
+      await alert.present();
+    }
+
+    this.counterList = await this.fetchCounterList();
+  }
 
   /**
    * カウンター一覧を取得する
@@ -146,8 +167,6 @@ export class CounterListPageComponent implements OnInit {
       return deleteCounterResult.value;
     }
   }
-
-
 
   /**
    * エラーダイアログの表示

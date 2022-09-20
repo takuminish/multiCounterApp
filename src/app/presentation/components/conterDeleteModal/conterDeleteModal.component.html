@@ -1,0 +1,26 @@
+<ion-modal [isOpen]="isDeleteModalOpen">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-button (click)="onClickCancelButton()">キャンセル</ion-button>
+        </ion-buttons>
+        <ion-title>カウンター削除</ion-title>
+     </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+        <ion-row class="ion-align-items-end">
+          <ion-col>
+            <ion-button color="danger" [strong]="true" (click)="onClickDeleteButton()">削除</ion-button>
+          </ion-col>
+        </ion-row>
+
+      <ng-container *ngFor="let counter of counterCheckedList;">
+        <ion-item>
+          <ion-checkbox slot="start" [(ngModel)]="counter.isChecked"></ion-checkbox>
+          <div class="name">{{counter.counter.title}}</div>
+        </ion-item>
+      </ng-container>
+    </ion-content>
+  </ng-template>
+</ion-modal>
