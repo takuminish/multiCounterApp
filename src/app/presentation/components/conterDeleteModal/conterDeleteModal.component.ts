@@ -73,6 +73,13 @@ export class ConterDeleteModalComponent implements OnInit, OnChanges {
     const deleteCounterIdList: CounterId[] = this.counterCheckedList.filter(c => c.isChecked).map(c => c.counter.id)
 
     this.deleteCounterEvent.emit(deleteCounterIdList);
+  }
+
+  /**
+   * true: 一つでもチェックをつけている
+   */
+  isCounterChecked(): boolean {
+    return this.counterCheckedList.some(c => c.isChecked);
 
   }
 }

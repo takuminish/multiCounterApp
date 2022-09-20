@@ -3,7 +3,7 @@
     <ion-header>
       <ion-toolbar>
         <ion-buttons slot="start">
-          <ion-button (click)="onClickCancelButton()">キャンセル</ion-button>
+          <ion-button (click)="onClickCancelButton()" >キャンセル</ion-button>
         </ion-buttons>
         <ion-title>カウンター削除</ion-title>
      </ion-toolbar>
@@ -11,7 +11,7 @@
     <ion-content class="ion-padding">
         <ion-row class="ion-align-items-end">
           <ion-col>
-            <ion-button color="danger" [strong]="true" (click)="onClickDeleteButton()">削除</ion-button>
+            <ion-button color="danger" [strong]="true" (click)="onClickDeleteButton()" [disabled]="!isCounterChecked()">削除</ion-button>
           </ion-col>
         </ion-row>
 
