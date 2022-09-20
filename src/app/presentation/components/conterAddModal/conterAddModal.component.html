@@ -1,0 +1,27 @@
+<ion-modal [isOpen]="isAddModalOpen">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-button (click)="onClickCancelButton()">キャンセル</ion-button>
+        </ion-buttons>
+        <ion-title>カウンター追加</ion-title>
+     </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <form [formGroup]="addCounterForm">
+        <ion-row class="ion-align-items-end">
+          <ion-item>
+            <ion-label position="stacked">カウンター名</ion-label>
+            <ion-input formControlName="title"></ion-input>
+          </ion-item>
+        </ion-row>
+        <ion-row class="ion-align-items-end">
+          <ion-col>
+            <ion-button color="primary" [strong]="true" (click)="onClickAddButton()">追加</ion-button>
+          </ion-col>
+        </ion-row>
+      </form>
+    </ion-content>
+  </ng-template>
+</ion-modal>

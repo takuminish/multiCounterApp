@@ -18,5 +18,7 @@
       </ng-container>
     </ion-row>
   </ion-grid> 
-  <app-conterDeleteModal [counterList]="counterList" [isDeleteModalOpen]="isDeleteModalOpen" (cancelEvent)="canceldeleteModal()" (deleteCounterEvent)="deleteCounter($event)"></app-conterDeleteModal>
+  <app-conterDeleteModal [counterList]="counterList" [isDeleteModalOpen]="isDeleteModalOpen" (cancelEvent)="canceldeleteModal()" (deleteCounterEvent)="onDeleteCounterEvent($event)"></app-conterDeleteModal>
+  <app-conterAddModal [isAddModalOpen]="isAddModalOpen" (cancelEvent)="cancelAddModal()" (addCounterEvent)="onAddCounterEvent($event)"></app-conterAddModal>
+
 </ion-content>

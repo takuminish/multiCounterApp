@@ -15,15 +15,15 @@ import { CounterService } from 'src/app/domain/services/CounterService/counter.s
   styleUrls: ['./counterList.page.component.scss']
 })
 export class CounterListPageComponent implements OnInit {
-
-  /** 削除モーダル */
-  @ViewChild(IonModal) deleteModal: IonModal;
-
   /** カウンター一覧 */
   public counterList: Counter[] = [];
 
   /** true: 削除モーダル表示, false: 削除モーダル非表示 */
   public isDeleteModalOpen: boolean = false;
+
+  /** true: 追加モーダル表示, false: 追加モーダル非表示 */
+  public isAddModalOpen: boolean = false;
+
 
   /**
    * コンストラクタ
@@ -44,9 +44,8 @@ export class CounterListPageComponent implements OnInit {
    * カウンターを1つ追加し、最新データを取得する
    */
   async onClickAddCounterFabButton() {
-    this.addCounter('test');
+    this.isAddModalOpen = true;
 
-    this.counterList = await this.fetchCounterList();
   }
 
   /**
@@ -65,9 +64,47 @@ export class CounterListPageComponent implements OnInit {
   }
 
   /**
+  * 追加モーダルを閉じる
+  */
+  cancelAddModal() {
+    this.isAddModalOpen = false;
+  }
+
+  /**
+   * カウンターの新規追加を行う
+   * @param counterTitle 新規追加カウンターのタイトル
+   */
+  async onAddCounterEvent(counterTitle: string) {
+    try {
+      await this.addCounter(counterTitle);
+
+      const alert = await this.alertController.create({
+        header: '成功',
+        message: `カウンターの追加に成功しました。`,
+        buttons: ['OK'],
+      });
+
+      await alert.present();
+    } catch (e) {
+      const alert = await this.alertController.create({
+        header: '追加失敗',
+        message: `カウンターの一追加に失敗しました。`,
+        buttons: ['OK'],
+      });
+
+      await alert.present();
+    }
+
+
+    //最新状態を取得し、モーダルを閉じる
+    this.counterList = await this.fetchCounterList();
+    this.isAddModalOpen = false;
+  }
+
+  /**
    * 引数で受け取ったカウンターIDのカウンターを削除する
    */
-  async deleteCounter(deleteTargetCounterIdList: CounterId[]) {
+  async onDeleteCounterEvent(deleteTargetCounterIdList: CounterId[]) {
     let promiseList = [];
 
     // Promise.allにより、すべての削除処理終了後に最新データを取得するようにしている

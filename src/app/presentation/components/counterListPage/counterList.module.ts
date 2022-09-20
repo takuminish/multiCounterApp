@@ -6,6 +6,7 @@ import { CounterListPageModuleRoutingModule } from './counterList-routing.module
 import { CounterListPageComponent } from './counterList.page.component';
 import { CounterCardModule } from '../CounterCard/counterCard.module';
 import { CounterDeleteModalModule } from '../conterDeleteModal/counterDeleteModal.module';
+import { CounterAddModalModule } from '../conterAddModal/counterAddModal.module';
 
 @NgModule({
   imports: [
@@ -14,7 +15,8 @@ import { CounterDeleteModalModule } from '../conterDeleteModal/counterDeleteModa
     FormsModule,
     CounterCardModule,
     CounterListPageModuleRoutingModule,
-    CounterDeleteModalModule
+    CounterDeleteModalModule,
+    CounterAddModalModule
 
   ],
   declarations: [CounterListPageComponent]
