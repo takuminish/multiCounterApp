@@ -52,4 +52,19 @@ export class MockCounterRepository extends CounterRepository {
         // return new Failure(new Error('登録エラー'));
     }
 
+    /**
+     *  
+     * {@inheritdoc}
+     */
+    async countPlusById(id: CounterId, count: Count): PromiseResult<boolean, Error> {
+        this.mockCounterList = this.mockCounterList.map(c => {
+            if (c.id.id === id.id) {
+                c.count.count += count.count;
+            }
+            return c;
+        })
+        return new Success(true);
+        // return new Failure(new Error('登録エラー'));
+    }
+
 }

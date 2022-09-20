@@ -136,6 +136,26 @@ export class CounterListPageComponent implements OnInit {
   }
 
   /**
+   * idに合致するカウンターのカウントを1加算する
+   * @param counterId 
+   */
+  async onCountUpEvent(counterId: CounterId) {
+
+    const countUpResult: Result<Boolean, Error> = await this.counterService.countUpById(counterId);
+
+    // trueの場合、異常系のためエラーハンドリング
+    // falseの場合、正常系の処理を行う
+    if (countUpResult.isFailure()) {
+      // エラーをコンソール出力し、ダイアログの表示
+      console.error(countUpResult.error.stack);
+      this.displayErrorAlert(countUpResult.error.message);
+    } else {
+      // 成功時は必ずtrue
+      return countUpResult.value;
+    }
+  }
+
+  /**
    * カウンター一覧を取得する
    * @returns カウンター一覧
    */

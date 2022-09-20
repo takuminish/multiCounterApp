@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Count } from '../../models/resources/count.model';
 import { Counter } from '../../models/resources/counter.model';
 import { CounterId } from '../../models/resources/counterId.model';
 import { PromiseResult } from '../../models/result/result.type';
@@ -42,5 +43,14 @@ export class CounterService {
  */
   async deleteCounterById(id: CounterId): PromiseResult<Boolean, Error> {
     return this.counterRepository.deleteCounterById(id);
+  }
+
+  /**
+   * idに合致するカウンターのカウントを1加算する
+   * @param id 
+   * @returns 
+   */
+  async countUpById(id: CounterId): PromiseResult<Boolean, Error> {
+    return this.counterRepository.countPlusById(id, new Count(1));
   }
 }

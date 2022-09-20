@@ -1,6 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Count } from 'src/app/domain/models/resources/count.model';
+import { Counter } from 'src/app/domain/models/resources/counter.model';
+import { CounterId } from 'src/app/domain/models/resources/counterId.model';
 
+/**
+ * カウンター
+ */
 @Component({
   selector: 'app-CounterCard',
   templateUrl: './counterCard.component.html',
@@ -8,17 +13,30 @@ import { Count } from 'src/app/domain/models/resources/count.model';
 })
 export class CounterCardComponent implements OnInit {
 
-  /** カウンターのタイトル */
-  @Input() title: string = '';
-
   /** カウンター */
-  @Input() count: Count = new Count(0);
+  @Input() counter: Counter;
 
+  /** タップ時イベント */
+  @Output() countUpEvent: EventEmitter<CounterId> = new EventEmitter<CounterId>();
+
+  /**
+   * コンストラクタ
+   */
   constructor() {
   }
 
+  /**
+   * コンポーネント生成時
+   */
   ngOnInit() {
+  }
 
+  /**
+   * カウンタータップ時
+   * タップ時イベントを発火させる
+   */
+  onClickCounter() {
+    this.countUpEvent.emit(this.counter.id);
   }
 
 }
